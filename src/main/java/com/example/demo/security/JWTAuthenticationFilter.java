@@ -8,7 +8,7 @@ import static com.example.demo.security.SecurityConstants.TOKEN_PREFIX;
 import com.auth0.jwt.JWT;
 
 import com.auth0.jwt.algorithms.Algorithm;
-import com.example.demo.model.persistence.User;
+import com.example.demo.model.requests.CreateUserRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,6 +21,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -36,8 +37,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest request,
             HttpServletResponse response) throws AuthenticationException {
         try {
-            User credentials = new ObjectMapper()
-                    .readValue(request.getInputStream(), User.class);
+            CreateUserRequest credentials = new ObjectMapper()
+                    .readValue(request.getInputStream(), CreateUserRequest.class);
 
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
