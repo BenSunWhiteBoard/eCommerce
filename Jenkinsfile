@@ -1,13 +1,9 @@
 pipeline {
     agent any
-//     agent {
-//         docker {
-//             image 'jenkinsci/blueocean'
-//             options '--rm -u root -d --name jenkins -p 8080:8080
-//                     -v jenkins-data:/var/jenkins_home
-//                     -v /var/run/docker.sock:/var/run/docker.sock'
-//         }
-//     }
+        docker {
+            image 'maven:3-alpine'
+            args '-v /root/.m2:/root/.m2'
+        }
     options {
         skipStagesAfterUnstable()
     }
