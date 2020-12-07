@@ -2,7 +2,6 @@ pipeline {
     agent {
         docker {
             image 'maven:3-alpine'
-            options '-p 8082:8082'
             args '-v /root/.m2:/root/.m2'
         }
     }
