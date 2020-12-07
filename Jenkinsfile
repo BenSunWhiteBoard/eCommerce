@@ -2,7 +2,8 @@ pipeline {
     agent {
         docker {
             image 'maven:3-alpine'
-            args '-v /root/.m2:/root/.m2'
+            args '-v /root/.m2:/root/.m2
+                  -p 8082:8082'
         }
     }
     options {
@@ -25,9 +26,10 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo 'running applications..'
-                sh 'java -jar target/auth-course-0.0.1-SNAPSHOT.jar'
-                echo 'stop running'
+                withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
+                    echo 'running applications..'
+                    sh 'java -jar target/auth-course-0.0.1-SNAPSHOT.jar'
+                }
             }
         }
     }

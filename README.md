@@ -1,3 +1,39 @@
+# Jenkins on AWS
+Build a EC2 instance that provide Jenkins GUI with Docker:
+* first install docker on instance
+```
+# update the existing packages
+sudo yum update
+
+# download and install Docker
+sudo yum install docker
+
+# add a user group to Docker
+sudo usermod -a -G docker $USER
+
+sudo reboot
+```
+* then runs Jenkins on port 8080
+```
+# start Docker service
+sudo service docker start
+
+# Run the jenkinsci/blueocean image as a container 
+    docker run --rm -u root -d --name jenkins -p 8080:8080 
+               -v jenkins-data:/var/jenkins_home 
+               -v /var/run/docker.sock:/var/run/docker.sock  
+               jenkinsci/blueocean
+```
+* Initial admin password to log in Jenkins GUI:
+```
+# view the initial admin password to be used to unlock Jenkins in the GUI. It resides in the shell into Jenkins
+cat /var/jenkins_home/secrets/initialAdminPassword 
+```
+* default username and password for admin:
+```
+username: admin
+password: $JENKINS_HOME/secrets/initialAdminPassword
+```
 # eCommerce Application
 
 In this project, you'll have an opportunity to demonstrate the security and DevOps skills that you learned in this lesson by completing an eCommerce application. You'll start with a template for the complete application, and your goal will be to take this template and add proper authentication and authorization controls so users can only access their data, and that data can only be accessed in a secure way. 
