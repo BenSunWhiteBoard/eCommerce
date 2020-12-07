@@ -25,10 +25,9 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                withEnv(['JENKINS_NODE_COOKIE=dontkill']) {
-                    echo 'running applications..'
-                    sh 'java -jar target/auth-course-0.0.1-SNAPSHOT.jar &'
-                }
+                echo 'running applications..'
+                sh 'java -jar target/auth-course-0.0.1-SNAPSHOT.jar'
+                echo 'applications finish'
             }
         }
     }
