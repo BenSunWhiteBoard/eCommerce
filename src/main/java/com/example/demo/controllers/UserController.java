@@ -1,11 +1,8 @@
 package com.example.demo.controllers;
 
-import java.util.Optional;
-
-import org.slf4j.Logger;
+import org.apache.log4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +22,9 @@ import com.example.demo.model.requests.CreateUserRequest;
 @RequestMapping("/api/user")
 public class UserController {
 
-    private static final Logger log = LoggerFactory.getLogger(UserController.class);
+    private static final Logger log4jLogger = Logger.getLogger(UserController.class.getName());
+    private static final org.slf4j.Logger slf4jLogger = LoggerFactory
+            .getLogger(UserController.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -54,14 +53,28 @@ public class UserController {
         user.setUsername(createUserRequest.getUsername());
         if (createUserRequest.getPassword().length() < 7 ||
                 !createUserRequest.getPassword().equals(createUserRequest.getConfirmPassword())) {
-            log.info("Create user with name " + createUserRequest.getUsername() + " failed!");
+            log4jLogger.info("USER_CREATE_Failure=Create user with name " + createUserRequest.getUsername()
+                    + " failed! Wrong password Format!");
+            slf4jLogger.info("USER_CREATE_Failure=Create user with name " + createUserRequest.getUsername()
+                    + " failed! Wrong password Format!");
+            return ResponseEntity.badRequest().build();
+        } else if (userRepository.findByUsername(user.getUsername()) != null) {
+            log4jLogger.info("USER_CREATE_Failure=Username: " + createUserRequest.getUsername()
+                    + " already exists! Try another!");
+            slf4jLogger.info("USER_CREATE_Failure=Username: " + createUserRequest.getUsername()
+                    + " already exists! Try another!");
             return ResponseEntity.badRequest().build();
         }
         cartRepository.save(cart);
         user.setCart(cart);
         user.setPassword(bCryptPasswordEncoder.encode(createUserRequest.getPassword()));
         userRepository.save(user);
-        log.info("Create user with name " + createUserRequest.getUsername() + " success!");
+        log4jLogger
+                .info("USER_CREATE_SUCCESS=Create user with name " + createUserRequest.getUsername()
+                        + " success!");
+        slf4jLogger
+                .info("USER_CREATE_SUCCESS=Create user with name " + createUserRequest.getUsername()
+                        + " success!");
         return ResponseEntity.ok(user);
     }
 }

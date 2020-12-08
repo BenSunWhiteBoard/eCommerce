@@ -1,4 +1,4 @@
-# Jenkins on AWS
+# Jenkins
 Build a EC2 instance that provide Jenkins GUI with Docker:
 * first install docker on instance
 ```
@@ -33,6 +33,12 @@ cat /var/jenkins_home/secrets/initialAdminPassword
 ```
 username: admin
 password: $JENKINS_HOME/secrets/initialAdminPassword
+```
+# Splunk
+* default username and password for admin:
+```
+username: admin
+password: SPLUNK-$instance-id$
 ```
 # eCommerce Application
 

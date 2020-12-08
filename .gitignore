@@ -1,3 +1,4 @@
 #ignore compiled files
 target/*
 SplunkConfig.json
+logs/*
