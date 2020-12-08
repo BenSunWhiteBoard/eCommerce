@@ -84,6 +84,7 @@ public class CartControllerTests {
     }
 
     @Test
+    @Order(4)
     public void removeNotExist() throws Exception {
         ModifyCartRequest request = getCartRequest();
         request.setItemId(3);

@@ -55,6 +55,7 @@ public class ItemControllerTests {
     }
 
     @Test
+    @Order(2)
     public void getAllItems() throws Exception {
         mvc.perform(
                 get("/api/item")
@@ -65,6 +66,7 @@ public class ItemControllerTests {
     }
 
     @Test
+    @Order(3)
     public void getItemById() throws Exception {
         mvc.perform(
                 get("/api/item/1")
@@ -75,6 +77,7 @@ public class ItemControllerTests {
     }
 
     @Test
+    @Order(4)
     public void getItemByWrongId() throws Exception {
         mvc.perform(
                 get("/api/item/4")
@@ -85,6 +88,7 @@ public class ItemControllerTests {
     }
 
     @Test
+    @Order(5)
     public void getItemByWrongName() throws Exception {
         mvc.perform(
                 get("/api/name/wrongName")
